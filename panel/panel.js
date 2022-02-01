@@ -54,10 +54,25 @@ function updatePanel() {
 }
 
 
+function clearPanel() {
+	const ai = $('article-image');
+	ai.textContent = 'loading...';
+	ai.style.backgroundImage = 'none';
+
+	$('domain').textContent = '';
+	$('article-title').textContent = '';
+	$('article-summary').textContent = '';
+
+	const result = $('result');
+	result.textContent = '';
+}
+
+
 addEventListener('load', () => updatePanel());
 
 
 chrome.devtools.network.onNavigated.addListener(url => {
+	clearPanel();
 	const conn = chrome.runtime.connect({ name: "devtools-page" });
 	conn.postMessage({
 		tabId: chrome.devtools.inspectedWindow.tabId,
